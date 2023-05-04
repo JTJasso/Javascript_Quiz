@@ -8,6 +8,12 @@ const btn1 = document.getElementById("btn-1");
 const btn2 = document.getElementById("btn-2");
 const btn3 = document.getElementById("btn-3");
 const btn4 = document.getElementById("btn-4");
+
+btn1.addEventListener("click", checkanswer);
+btn2.addEventListener("click", checkanswer);
+btn3.addEventListener("click", checkanswer);
+btn4.addEventListener("click", checkanswer);
+
 var timerInterval;
 const timerelement = document.getElementById("timerEl");
 const answerelement = document.getElementById("answerEl");
@@ -54,8 +60,8 @@ function startQuiz() {
 
 //the quiz in question
 function revealQuestion() {
-    
-    questions.textContent = "Q"+ (currentQuestion+1)+": "+ questionsDB[currentQuestion].question;
+
+    questions.textContent = "Q" + (currentQuestion + 1) + ": " + questionsDB[currentQuestion].question;
     btn1.textContent = questionsDB[currentQuestion].choice1;
     btn2.textContent = questionsDB[currentQuestion].choice2;
     btn3.textContent = questionsDB[currentQuestion].choice3;
@@ -65,18 +71,37 @@ function revealQuestion() {
 
 function setTime() {
     // Sets interval in variable
-    timerInterval = setInterval(function() {
-      secondsLeft--;
-      timerelement.textContent = secondsLeft + " seconds left till colorsplosion.";
-  
-      if(secondsLeft <= 0) {
-        // Stops execution of action at set interval
-        clearInterval(timerInterval);
-        // Calls function to create and append image
-        sendMessage();
-      }else{
-        secondsLeft--
-      }
-  
+    timerInterval = setInterval(function () {
+        secondsLeft--;
+        timerelement.textContent = secondsLeft + " seconds left till colorsplosion.";
+
+        if (secondsLeft <= 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval);
+            // Calls function to create and append image
+            sendMessage();
+        } else {
+            secondsLeft--
+        }
+
     }, 1000);
-  }
+}
+
+function checkanswer() {
+    //checks to see if answer is correct
+    var userchoice = this.getAttribute("id").split("-")[1]
+    console.log(userchoice)
+    if (userchoice == questionsDB[currentQuestion].answer) {
+        score += 10;
+        answerelement.textContent = "Correct!";
+    } else {
+        answerelement.textContent = "Wrong!";
+        secondsLeft -= 10;
+    }
+    if (currentQuestion < questionsDB.length - 1) {
+        currentQuestion++;
+        revealQuestion();
+    } else {
+
+    }
+}

@@ -5,5 +5,9 @@
 }
 
 .hide { 
-    display: none
+    display: none;
+}
+
+.highscore_div {
+    display: none;
 }
